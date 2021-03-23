@@ -10,18 +10,21 @@ public class InputManager
 
         while (waitingForInput) {
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                GameManager.Instance.m_playerChoice = 1; 
+            if (GameManager.Instance.playerChoice != 0) {
                 waitingForInput = false;
-            } else if (Input.GetKeyDown(KeyCode.Alpha2)) {
-                 GameManager.Instance.m_playerChoice = 2; 
-                 waitingForInput = false;
             }
+            // if (Input.GetKeyDown(KeyCode.Alpha1))
+            // {
+            //     GameManager.Instance.m_playerChoice = 1; 
+            //     waitingForInput = false;
+            // } else if (Input.GetKeyDown(KeyCode.Alpha2)) {
+            //      GameManager.Instance.m_playerChoice = 2; 
+            //      waitingForInput = false;
+            // }
 
             yield return null;
         }
         
-        Debug.Log("Player chose: " + GameManager.Instance.m_playerChoice);
+        //Debug.Log("Player chose: " + GameManager.Instance.playerChoice);
     }
 }

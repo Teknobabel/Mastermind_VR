@@ -1,4 +1,4 @@
-
+using System.Collections.Generic;
 public struct Event 
 {
     public string m_name;
@@ -19,5 +19,8 @@ public struct Event
     public int m_noStat2;
     public int m_noStat3;
     public int m_noStat4;
+    public Dictionary<string, Condition> m_conditions;
+    public Dictionary<string, Condition> m_yesCustom;
+    public Dictionary<string, Condition> m_noCustom;
     
 }
