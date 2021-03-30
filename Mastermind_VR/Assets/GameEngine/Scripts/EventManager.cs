@@ -25,7 +25,7 @@ public class EventManager
 
         foreach(Event e in globalGameState.m_events)
         {
-            if (globalGameState.m_turnNumber >= e.m_lockTurn)
+            if (globalGameState.m_turnNumber >= e.m_turnAvailable && e.m_lockedTurnsRemaining == 0)
             {
 
                 //Check conditions
@@ -44,7 +44,7 @@ public class EventManager
                             entry.Value.value != c.value)
                         {
                             conditionsMet = false;
-                            Debug.Log("Event conditions not met: " + entry.Key);
+                            //Debug.Log("Event conditions not met: " + entry.Key);
                             break;
                         }
                     } else {
@@ -61,7 +61,7 @@ public class EventManager
                                     s.m_currentValue < entry.Value.value)
                                 {
                                     conditionsMet = false;
-                                        Debug.Log("Event conditions not met: " + entry.Key);
+                                        //Debug.Log("Event conditions not met: " + entry.Key);
                                         break;
 
                                 } else if (entry.Value.operation == Condition.Operation.LessThan &&
@@ -69,7 +69,7 @@ public class EventManager
                                     {
 
                                         conditionsMet = false;
-                                        Debug.Log("Event conditions not met: " + entry.Key);
+                                        //Debug.Log("Event conditions not met: " + entry.Key);
                                         break;
                                 }
                             }
@@ -93,99 +93,131 @@ public class EventManager
     }
    public static List<Event> BuildEvents (List<List<string>> eventData, GlobalGameState globalGameState) {
             
+            int cardName = 0;
+            int cardID = 1;
+            int bearer = 2;
+            int conditions = 3;
+            int turnAvailable = 4;
+            int weight = 5;
+            int question = 6;
+            int overrideYes = 7;
+            int answerYes = 8;
+            int yInfamy = 9;
+            int yLoyalty = 10;
+            int yInfluence = 11;
+            int yMoney = 12;
+            int yCustom = 13;
+            int overrideNo = 14;
+            int answerNo = 15;
+            int nInfamy = 16;
+            int nLoyalty = 17;
+            int nInfluence = 18;
+            int nMoney = 19;
+            int nCustom = 20;
+            int turnsLocked = 21;
+
+
             List<Event> events = new List<Event>();
             foreach(List<string> l in eventData)
             {
                 Event e = new Event();
 
-                e.m_name = l[0];
-                e.m_id = int.Parse(l[1]);
-                e.m_bearer = l[2];
+                e.m_name = l[cardName];
+                e.m_id = int.Parse(l[cardID]);
+                e.m_bearer = l[bearer];
+                e.m_lockedTurnsRemaining = 0;
 
-                if (l[4] != "")
+                if (l[turnAvailable] != "")
                 {
-                    e.m_lockTurn = int.Parse(l[4]);
+                    e.m_turnAvailable = int.Parse(l[turnAvailable]);
                 }
 
-                if (l[5] != "")
+                if (l[weight] != "")
                 {
-                    e.m_weight = int.Parse(l[5]);
+                    e.m_weight = int.Parse(l[weight]);
                 }
                 
-                e.m_question = l[6];
+                e.m_question = l[question];
 
-                if (l[7] == "")
+                if (l[overrideYes] == "")
                 {
                     e.m_overrideYes = "Yes";
                 } else {
-                    e.m_overrideYes = l[7];
+                    e.m_overrideYes = l[overrideYes];
                 }
 
-                if (l[8] != "")
+                if (l[answerYes] != "")
                 {
-                    e.m_answerYes = l[8];
+                    e.m_answerYes = l[answerYes];
                 }
 
-                if (l[8] == "")
+                if (l[overrideNo] == "")
                 {
                     e.m_overrideNo = "No";
                 } else {
-                    e.m_overrideNo = l[8];
+                    e.m_overrideNo = l[overrideNo];
                 }
 
-                if (l[15] != "")
+                if (l[answerNo] != "")
                 {
-                    e.m_answerNo = l[15];
+                    e.m_answerNo = l[answerNo];
                 }
 
-                if (l[9] != "")
+                if (l[yInfamy] != "")
                 {
-                    e.m_yesStat1 = int.Parse(l[9]);
+                    e.m_yesStat1 = int.Parse(l[yInfamy]);
                 }
 
-                if (l[10] != "")
+                if (l[yLoyalty] != "")
                 {
-                    e.m_yesStat2 = int.Parse(l[10]);
+                    e.m_yesStat2 = int.Parse(l[yLoyalty]);
                 }
 
-                if (l[11] != "")
+                if (l[yInfluence] != "")
                 {
-                    e.m_yesStat3 = int.Parse(l[11]);
+                    e.m_yesStat3 = int.Parse(l[yInfluence]);
                 }
 
-                if (l[12] != "")
+                if (l[yMoney] != "")
                 {
-                    e.m_yesStat4 = int.Parse(l[12]);
+                    e.m_yesStat4 = int.Parse(l[yMoney]);
                 }
 
-                if (l[16] != "")
+                if (l[nInfamy] != "")
                 {
-                    e.m_noStat1 = int.Parse(l[16]);
+                    e.m_noStat1 = int.Parse(l[nInfamy]);
                 }
 
-                if (l[17] != "")
+                if (l[nLoyalty] != "")
                 {
-                    e.m_noStat2 = int.Parse(l[17]);
+                    e.m_noStat2 = int.Parse(l[nLoyalty]);
                 }
 
-                if (l[18] != "")
+                if (l[nInfluence] != "")
                 {
-                    e.m_noStat3 = int.Parse(l[18]);
+                    e.m_noStat3 = int.Parse(l[nInfluence]);
                 }
 
-                if (l[19] != "")
+                if (l[nMoney] != "")
                 {
-                    e.m_noStat4 = int.Parse(l[19]);
+                    e.m_noStat4 = int.Parse(l[nMoney]);
+                }
+
+                if (l[turnsLocked] == "")
+                {
+                    e.m_turnsLocked = 0;
+                } else {
+                    e.m_turnsLocked = int.Parse(l[turnsLocked]);
                 }
 
                 // parse all the condition text
 
                 e.m_conditions = new Dictionary<string, Condition>();
 
-                if (l[3] != "")
+                if (l[conditions] != "")
                 {
                     // split line into individual conditions
-                    string baseString = l[3];
+                    string baseString = l[conditions];
                     string[] splitString = baseString.Split();
                     // foreach(string st in splitS)
                     // {
@@ -249,12 +281,14 @@ public class EventManager
                             c2.value = value;
                             e.m_conditions.Add(s, c2);
 
-                            Condition newGlobalVariable = new Condition();
-                            newGlobalVariable.value = 0;
-                            newGlobalVariable.operation = Condition.Operation.Boolean;
-                            globalGameState.m_globalVariables.Add(s, newGlobalVariable);
-                            Debug.Log("Adding new global variable: " + s + " " + newGlobalVariable.operation + " " + newGlobalVariable.value);
-
+                            if (!globalGameState.m_globalVariables.ContainsKey(s))
+                            {
+                                Condition newGlobalVariable = new Condition();
+                                newGlobalVariable.value = 0;
+                                newGlobalVariable.operation = Condition.Operation.Boolean;
+                                globalGameState.m_globalVariables.Add(s, newGlobalVariable);
+                                Debug.Log("Adding new global variable: " + s + " " + newGlobalVariable.operation + " " + newGlobalVariable.value);
+                            }
                         }
                     }
                     
@@ -264,66 +298,80 @@ public class EventManager
                     
                     e.m_yesCustom = new Dictionary<string, Condition>();
 
-                    if (l[13] != "")
+                    if (l[yCustom] != "")
                     {
-                        string s = l[13];
-                        Condition yesCustom = new Condition();
-                        yesCustom.operation = Condition.Operation.Boolean;
-                        int value = 1;
-                        if (s[0] == '+')
-                        {
-                            yesCustom.operation = Condition.Operation.GainItem;
-                        }
-                        else if (s[0] == '>')
-                        {
-                            yesCustom.operation = Condition.Operation.LoadEvent;
-                            string tempStr = s;
-                            s = tempStr.Remove(0, 1);
-                        }
-                        else if (s[0] == '!')
-                        {
-                            value = 0;
-                            string tempStr = s;
-                            s = tempStr.Remove(0, 1);
-                        }
+                        string baseString = l[yCustom];
+                        string[] splitString = baseString.Split();
 
-                        Debug.Log("Adding Yes Custom: " + s + " " + yesCustom.operation + " " + value);
-                        yesCustom.value = value;
-                        e.m_yesCustom.Add(s, yesCustom);
+                        for (int j=0; j<splitString.Length; j++)
+                        {
+                            string s = splitString[j];
+                            //string s = l[yCustom];
+                            Condition yesCustom = new Condition();
+                            yesCustom.operation = Condition.Operation.Boolean;
+                            int value = 1;
+                            if (s[0] == '+')
+                            {
+                                yesCustom.operation = Condition.Operation.GainItem;
+                            }
+                            else if (s[0] == '>')
+                            {
+                                yesCustom.operation = Condition.Operation.LoadEvent;
+                                string tempStr = s;
+                                s = tempStr.Remove(0, 1);
+                            }
+                            else if (s[0] == '!')
+                            {
+                                value = 0;
+                                string tempStr = s;
+                                s = tempStr.Remove(0, 1);
+                            }
+
+                            Debug.Log("Adding Yes Custom: " + s + " " + yesCustom.operation + " " + value);
+                            yesCustom.value = value;
+                            e.m_yesCustom.Add(s, yesCustom);
+                        }
                     }
 
                     // No actions
 
                     e.m_noCustom = new Dictionary<string, Condition>();
                     
-                    if (l[20] != "")
+                    if (l[nCustom] != "")
                     {
-                        string s = l[20];
-                        Condition noCustom = new Condition();
-                        noCustom.operation = Condition.Operation.Boolean;
-                        int value = 1;
+                        string baseString = l[nCustom];
+                        string[] splitString = baseString.Split();
 
-                        if (s[0] == '+')
+                        for (int j=0; j<splitString.Length; j++)
                         {
-                            noCustom.operation = Condition.Operation.GainItem;
-                        }
-                        else if (s[0] == '>')
-                        {
-                            noCustom.operation = Condition.Operation.LoadEvent;
-                            string tempStr = s;
-                            s = tempStr.Remove(0, 1);
+                            string s = splitString[j];
+                            //string s = l[nCustom];
+                            Condition noCustom = new Condition();
+                            noCustom.operation = Condition.Operation.Boolean;
+                            int value = 1;
 
-                        }
-                        else if (s[0] == '!')
-                        {
-                            value = 0;
-                            string tempStr = s;
-                            s = tempStr.Remove(0, 1);
-                        }
+                            if (s[0] == '+')
+                            {
+                                noCustom.operation = Condition.Operation.GainItem;
+                            }
+                            else if (s[0] == '>')
+                            {
+                                noCustom.operation = Condition.Operation.LoadEvent;
+                                string tempStr = s;
+                                s = tempStr.Remove(0, 1);
 
-                        Debug.Log("Adding No Custom: " + s + " " + noCustom.operation + " " + value);
-                        noCustom.value = value;
-                        e.m_noCustom.Add(s, noCustom);
+                            }
+                            else if (s[0] == '!')
+                            {
+                                value = 0;
+                                string tempStr = s;
+                                s = tempStr.Remove(0, 1);
+                            }
+
+                            Debug.Log("Adding No Custom: " + s + " " + noCustom.operation + " " + value);
+                            noCustom.value = value;
+                            e.m_noCustom.Add(s, noCustom);
+                        }
                     }
 
                 events.Add(e);

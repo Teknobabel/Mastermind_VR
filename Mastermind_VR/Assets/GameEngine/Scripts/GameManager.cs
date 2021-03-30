@@ -77,6 +77,16 @@ public class GameManager : MonoBehaviour
     private void EndTurn () {
         m_playerChoice = 0;
         m_answer = AnswerType.None;
+
+        for (int i=0; i<m_globalGameState.m_events.Count; i++)
+        {
+            Event e = m_globalGameState.m_events[i];
+            
+            if (e.m_lockedTurnsRemaining > 0) {
+                e.m_lockedTurnsRemaining -= 1;
+                Debug.Log(e.m_lockedTurnsRemaining);
+            }
+        }
     }
 
     // public void DisplayEvent (Event thisEvent) {
@@ -183,6 +193,8 @@ public class GameManager : MonoBehaviour
             break;
         }
         m_playerChoice = 0;
+        thisEvent.m_lockedTurnsRemaining = thisEvent.m_turnsLocked;
+        
     }
 
     private void CheckForGameOver ()

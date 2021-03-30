@@ -42,7 +42,7 @@ public class GameView : MonoBehaviour
     {
         m_currentEvent = thisEvent;
         GlobalGameState g = GameManager.Instance.globalGameState;
-        m_questionText.text = thisEvent.m_question;
+        m_questionText.text = thisEvent.m_bearer + ": " + thisEvent.m_question;
         m_turnText.text = "Turn: " + g.m_turnNumber;
         m_buttonText[0].text = thisEvent.m_overrideYes;
         m_buttonText[1].text = thisEvent.m_overrideNo;
@@ -71,11 +71,13 @@ public class GameView : MonoBehaviour
         m_buttons[1].gameObject.SetActive(false);
         m_buttons[2].gameObject.SetActive(true);
 
+        m_buttonText[2].text = "Next";
+
         if (GameManager.Instance.answer == GameManager.AnswerType.Yes)
         {
-            m_buttonText[2].text = thisEvent.m_answerYes;
+            m_questionText.text = thisEvent.m_answerYes;
         } else {
-            m_buttonText[2].text = thisEvent.m_answerNo;
+            m_questionText.text = thisEvent.m_answerNo;
         }
     }
 
@@ -102,11 +104,12 @@ public class GameView : MonoBehaviour
             float maxValue = (float)stat.m_maxValue;
             float fillAmount = currentValue / maxValue;
             statUI.m_fill.fillAmount = fillAmount;
+            statUI.m_nameText.text = stat.m_name;
         }
     }
 
     
-
+    
     private void ShowMovementIndicators (int buttonNum){
         int s1 = 0;
         int s2 = 0;
@@ -126,10 +129,42 @@ public class GameView : MonoBehaviour
             s4 = m_currentEvent.m_noStat4;
         }
 
-        if (s1 != 0){m_stats[0].ChangeMovementIndicatorState(true);}
-        if (s2 != 0){m_stats[1].ChangeMovementIndicatorState(true);}
-        if (s3 != 0){m_stats[2].ChangeMovementIndicatorState(true);}
-        if (s4 != 0){m_stats[3].ChangeMovementIndicatorState(true);}
+        if (s1 != 0){
+
+            if (s1 >= 15)
+            {
+                m_stats[0].ChangeLargeMovementIndicatorState(true);
+            } else {
+                m_stats[0].ChangeMovementIndicatorState(true);
+            }
+        }
+
+        if (s2 != 0){
+
+            if (s2 >= 15) {
+                m_stats[1].ChangeLargeMovementIndicatorState(true);
+            } else {
+                m_stats[1].ChangeMovementIndicatorState(true);
+            }
+        }
+
+        if (s3 != 0){
+
+            if (s3 >= 15) {
+                m_stats[2].ChangeLargeMovementIndicatorState(true);
+            } else {
+                m_stats[2].ChangeMovementIndicatorState(true);
+            }
+        }
+
+        if (s4 != 0){
+
+            if (s4 >= 15) {
+                m_stats[3].ChangeLargeMovementIndicatorState(true);
+            } else {
+                m_stats[3].ChangeMovementIndicatorState(true);
+            }
+        }
     }
 
     private void HideMovementIndicators () {

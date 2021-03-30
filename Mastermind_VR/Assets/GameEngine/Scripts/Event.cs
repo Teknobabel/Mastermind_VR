@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-public struct Event 
+public class Event 
 {
     public string m_name;
     public string m_bearer;
@@ -9,7 +9,7 @@ public struct Event
     public string m_overrideNo;
     public string m_answerNo;
     public int m_id;
-    public int m_lockTurn;
+    public int m_turnAvailable;
     public int m_weight;
     public int m_yesStat1;
     public int m_yesStat2;
@@ -19,6 +19,8 @@ public struct Event
     public int m_noStat2;
     public int m_noStat3;
     public int m_noStat4;
+    public int m_lockedTurnsRemaining;
+    public int m_turnsLocked;
     public Dictionary<string, Condition> m_conditions;
     public Dictionary<string, Condition> m_yesCustom;
     public Dictionary<string, Condition> m_noCustom;

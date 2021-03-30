@@ -14,22 +14,22 @@ public class GlobalGameState
         m_events = events;
 
         Stat s1 = new Stat();
-        s1.m_name = "statOne";
+        s1.m_name = "Infamy";
         s1.m_currentValue = 50;
         m_stats.Add(s1);
 
         Stat s2 = new Stat();
-        s2.m_name = "statTwo";
+        s2.m_name = "Loyalty";
         s2.m_currentValue = 50;
         m_stats.Add(s2);
 
         Stat s3 = new Stat();
-        s3.m_name = "statThree";
+        s3.m_name = "Influence";
         s3.m_currentValue = 50;
         m_stats.Add(s3);
 
         Stat s4 = new Stat();
-        s4.m_name = "statFour";
+        s4.m_name = "Money";
         s4.m_currentValue = 50;
         m_stats.Add(s4);
    }

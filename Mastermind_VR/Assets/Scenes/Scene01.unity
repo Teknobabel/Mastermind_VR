@@ -933,12 +933,14 @@ MonoBehaviour:
   - {fileID: 1944062028}
   m_portrait: {fileID: 898956176}
   m_portraits:
-  - m_name: henchmen1
+  - m_name: Makoto
     m_sprite: {fileID: 2800000, guid: 28a9e351726f5ef4e80adcd6a648f75b, type: 3}
   - m_name: henchmen2
     m_sprite: {fileID: 2800000, guid: 299328d2ab6d5dc4f8f7f96da0084c5a, type: 3}
   - m_name: henchmen3
     m_sprite: {fileID: 2800000, guid: 5024b031dcc129846ab953c41cfc8de1, type: 3}
+  - m_name: Guard Captain
+    m_sprite: {fileID: 2800000, guid: 7f23fe05b72547146b1bd3cf48c9b901, type: 3}
 --- !u!1 &889320127
 GameObject:
   m_ObjectHideFlags: 0
@@ -1435,7 +1437,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -57.6}
-  m_SizeDelta: {x: 418.29, y: 30}
+  m_SizeDelta: {x: 418.29, y: 77.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1320231744
 MonoBehaviour:
@@ -2199,7 +2201,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8367170260724688474, guid: 2504a43cc65a4a24597cea5a19d12986, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 30
+      value: 77.7
       objectReference: {fileID: 0}
     - target: {fileID: 8367170260724688474, guid: 2504a43cc65a4a24597cea5a19d12986, type: 3}
       propertyPath: m_LocalPosition.x
