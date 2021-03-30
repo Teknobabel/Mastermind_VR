@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cacb151787f99f34990f1b254768919b, type: 3}
+  m_Name: WeatherDominator
+  m_EditorClassIdentifier: 
+  m_name: Weather Dominator
+  m_description: Research and build a doomsday device capable of bringing the world
+    to its knees.
+  m_objectives:
+  - m_name: Objective 1
+    m_description: Acquire Scientists
+    m_cardID: -1
+    m_state: 1
+  - m_name: Objective 2
+    m_description: Build the device
+    m_cardID: -1
+    m_state: 1
+  - m_name: Objective 3
+    m_description: Threaten the world
+    m_cardID: -1
+    m_state: 1

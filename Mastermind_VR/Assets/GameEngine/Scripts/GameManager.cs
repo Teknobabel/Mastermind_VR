@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
         Yes,
         No,
     }
+    public OmegaPlan m_omegaPlan;
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
     public List<List<string>> m_eventData;
@@ -37,9 +38,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("Initializing Game");
         yield return StartCoroutine (GoogleSheetDownload.GetEventData(this));
         m_globalGameState = new GlobalGameState();
-        m_globalGameState.Initialize(EventManager.BuildEvents(m_eventData, m_globalGameState));
+        m_globalGameState.Initialize(EventManager.BuildEvents(m_eventData, m_globalGameState), m_omegaPlan);
         m_eventData = null;
-        //GameView.Instance.Initialize(m_globalGameState);
+        GameView.Instance.Initialize(m_globalGameState);
         StartCoroutine(DoTurn());
         yield return null;
     }
@@ -84,7 +85,7 @@ public class GameManager : MonoBehaviour
             
             if (e.m_lockedTurnsRemaining > 0) {
                 e.m_lockedTurnsRemaining -= 1;
-                Debug.Log(e.m_lockedTurnsRemaining);
+                //Debug.Log(e.m_lockedTurnsRemaining);
             }
         }
     }
@@ -140,6 +141,17 @@ public class GameManager : MonoBehaviour
                         {
                             m_globalGameState.m_nextEvent = entry.Key;
                         }
+                        else if (entry.Key == "OP1")
+                        {
+                            CompleteOPObjective(0);
+                            
+                        } else if (entry.Key == "OP2")
+                        {
+                            CompleteOPObjective(1);
+                        } else if (entry.Key == "OP3")
+                        {
+                            CompleteOPObjective(2);
+                        }
                         else if (m_globalGameState.m_globalVariables.ContainsKey(entry.Key) &&
                         m_globalGameState.m_globalVariables[entry.Key].value != entry.Value.value)
                         {
@@ -179,6 +191,17 @@ public class GameManager : MonoBehaviour
                         {
                             m_globalGameState.m_nextEvent = entry.Key;
                         }
+                        else if (entry.Key == "OP1")
+                        {
+                            CompleteOPObjective(0);
+                            
+                        } else if (entry.Key == "OP2")
+                        {
+                            CompleteOPObjective(1);
+                        } else if (entry.Key == "OP3")
+                        {
+                            CompleteOPObjective(2);
+                        }
                         else if (m_globalGameState.m_globalVariables.ContainsKey(entry.Key) &&
                         m_globalGameState.m_globalVariables[entry.Key].value != entry.Value.value)
                         {
@@ -195,6 +218,17 @@ public class GameManager : MonoBehaviour
         m_playerChoice = 0;
         thisEvent.m_lockedTurnsRemaining = thisEvent.m_turnsLocked;
         
+    }
+
+    private void CompleteOPObjective (int objNumber)
+    {
+       OmegaPlan.OPObjective op = m_globalGameState.m_omegaPlan.m_objectives[objNumber];
+
+       if (op.m_state != OmegaPlan.OPObjective.ObjectiveState.Complete)
+       {
+           op.m_state = OmegaPlan.OPObjective.ObjectiveState.Complete;
+           GameView.Instance.DisplayOmegaPlan(m_globalGameState.m_omegaPlan);
+       }
     }
 
     private void CheckForGameOver ()

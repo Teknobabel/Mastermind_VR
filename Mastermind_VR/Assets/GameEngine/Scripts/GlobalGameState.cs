@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GlobalGameState
+public class GlobalGameState : Object
 {
     public List<Event> m_events;
     public List<Stat> m_stats = new List<Stat>();
     public int m_turnNumber = 0;
     public Dictionary<string, Condition> m_globalVariables = new Dictionary<string, Condition>();
     public string m_nextEvent;
-   public void Initialize (List<Event> events) {
+    public OmegaPlan m_omegaPlan;
+   public void Initialize (List<Event> events, OmegaPlan op) {
        
         m_events = events;
+        m_omegaPlan = Instantiate(op);
 
         Stat s1 = new Stat();
         s1.m_name = "Infamy";

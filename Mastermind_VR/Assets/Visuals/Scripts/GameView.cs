@@ -21,6 +21,10 @@ public class GameView : MonoBehaviour
     public StatUI[] m_stats;
     public RawImage m_portrait;
     public Portrait[] m_portraits;
+    public Text m_opName;
+    public Text m_opDescription;
+    public GameObject m_opObjectiveUI;
+    public Transform m_opObjectiveList;
 
     private Event m_currentEvent;
     void Awake () {
@@ -32,10 +36,10 @@ public class GameView : MonoBehaviour
         
     }
 
-    // public void Initialize (GlobalGameState globalGameState) {
+    public void Initialize (GlobalGameState globalGameState) {
         
-        
-    // }
+        DisplayOmegaPlan(globalGameState.m_omegaPlan);
+    }
 
     // Update is called once per frame
     public void DisplayEvent(Event thisEvent)
@@ -108,7 +112,41 @@ public class GameView : MonoBehaviour
         }
     }
 
-    
+    public void DisplayOmegaPlan (OmegaPlan op){
+
+        m_opName.text = op.m_name;
+        m_opDescription.text = op.m_description;
+
+        List<GameObject> go = new List<GameObject>();
+
+        foreach (Transform child in m_opObjectiveList)
+        {
+            go.Add(child.gameObject);
+        }
+
+        while (go.Count > 0)
+        {
+            GameObject g = go[0];
+            go.RemoveAt(0);
+            Destroy(g);
+        }
+
+        for (int i=0; i< op.m_objectives.Length; i++)
+        {
+            OmegaPlan.OPObjective obj = op.m_objectives[i];
+            OPObjectiveUI obUI = (OPObjectiveUI) Instantiate(m_opObjectiveUI, m_opObjectiveList).GetComponent<OPObjectiveUI>();
+            
+            if (obj.m_state == OmegaPlan.OPObjective.ObjectiveState.Complete)
+            {
+                obUI.m_objNumber.text = "C";
+                obUI.m_background.color = Color.green;
+            } else {
+                obUI.m_objNumber.text = (i+1).ToString();
+            }
+            obUI.m_objName.text = obj.m_name;
+            obUI.m_objDescription.text = obj.m_description;
+        }
+    }
     
     private void ShowMovementIndicators (int buttonNum){
         int s1 = 0;
