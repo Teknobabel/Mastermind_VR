@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
         No,
     }
     public OmegaPlan m_omegaPlan;
+    public Item[] m_items;
     private static GameManager _instance;
     public static GameManager Instance { get { return _instance; } }
     public List<List<string>> m_eventData;
@@ -41,13 +42,14 @@ public class GameManager : MonoBehaviour
         m_globalGameState.Initialize(EventManager.BuildEvents(m_eventData, m_globalGameState), m_omegaPlan);
         m_eventData = null;
         GameView.Instance.Initialize(m_globalGameState);
+        GainItem(m_items[0]);
         StartCoroutine(DoTurn());
         yield return null;
     }
 
     public IEnumerator DoTurn () {
 
-        m_globalGameState.StartTurn();
+        StartTurn();
 
         Event newEvent = EventManager.GetEvent(m_globalGameState);
 
@@ -74,6 +76,10 @@ public class GameManager : MonoBehaviour
         }
         yield return null;
     }
+
+    private void StartTurn () {
+       m_globalGameState.m_turnNumber ++;
+   }
 
     private void EndTurn () {
         m_playerChoice = 0;
@@ -140,6 +146,17 @@ public class GameManager : MonoBehaviour
                         if (entry.Value.operation == Condition.Operation.LoadEvent)
                         {
                             m_globalGameState.m_nextEvent = entry.Key;
+                        }
+                        if (entry.Value.operation == Condition.Operation.GainItem)
+                        {
+                            foreach(Item item in m_items)
+                            {
+                                if (item.name == entry.Key)
+                                {
+                                    GainItem(item);
+                                    break;
+                                }
+                            }
                         }
                         else if (entry.Key == "OP1")
                         {
@@ -229,6 +246,13 @@ public class GameManager : MonoBehaviour
            op.m_state = OmegaPlan.OPObjective.ObjectiveState.Complete;
            GameView.Instance.DisplayOmegaPlan(m_globalGameState.m_omegaPlan);
        }
+    }
+
+    private void GainItem (Item item)
+    {
+        Item newItem = Instantiate(item);
+        m_globalGameState.m_currentItems.Add(newItem);
+        GameView.Instance.DisplayItems(m_globalGameState.m_currentItems);
     }
 
     private void CheckForGameOver ()

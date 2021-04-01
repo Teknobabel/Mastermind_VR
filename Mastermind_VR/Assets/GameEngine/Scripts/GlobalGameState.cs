@@ -5,6 +5,7 @@ using UnityEngine;
 public class GlobalGameState : Object
 {
     public List<Event> m_events;
+    public List<Item> m_currentItems = new List<Item>();
     public List<Stat> m_stats = new List<Stat>();
     public int m_turnNumber = 0;
     public Dictionary<string, Condition> m_globalVariables = new Dictionary<string, Condition>();
@@ -34,9 +35,5 @@ public class GlobalGameState : Object
         s4.m_name = "Money";
         s4.m_currentValue = 50;
         m_stats.Add(s4);
-   }
-
-   public void StartTurn () {
-       m_turnNumber ++;
    }
 }

@@ -24,8 +24,9 @@ public class GameView : MonoBehaviour
     public Text m_opName;
     public Text m_opDescription;
     public GameObject m_opObjectiveUI;
+    public GameObject m_itemUI;
     public Transform m_opObjectiveList;
-
+    public Transform m_itemList;
     private Event m_currentEvent;
     void Awake () {
         _instance = this;
@@ -109,6 +110,28 @@ public class GameView : MonoBehaviour
             float fillAmount = currentValue / maxValue;
             statUI.m_fill.fillAmount = fillAmount;
             statUI.m_nameText.text = stat.m_name;
+        }
+    }
+
+    public void DisplayItems (List<Item> items)
+    {
+        List<GameObject> go = new List<GameObject>();
+
+        foreach (Transform child in m_itemList)
+        {
+            go.Add(child.gameObject);
+        }
+
+        while (go.Count > 0)
+        {
+            GameObject g = go[0];
+            go.RemoveAt(0);
+            Destroy(g);
+        }
+
+        foreach (Item item in items)
+        {
+            ItemUI itemUI = (ItemUI) Instantiate(m_itemUI, m_itemList).GetComponent<ItemUI>();
         }
     }
 
